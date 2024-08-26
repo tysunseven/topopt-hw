@@ -6,6 +6,12 @@ Filter type (ft) can significantly impact the resulting topology. In this study,
 
 ![Alt text for the first image](../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft1_loop57.png)
 
+<p align="center">
+  <img alt="Light" src="../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft1_loop57.png" width="45%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="Dark" src="../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft2_loop90.png" width="45%">
+</p>
+
 In comparing these images, we can observe that the sensitivity filter tends to produce more distinct structural features, whereas the density filter often results in smoother transitions between solid and void regions. This difference occurs because the sensitivity filter directly influences the gradient calculation, leading to sharper boundaries, while the density filter averages densities, resulting in more gradual changes.
 
 Analysis: The choice between sensitivity and density filters depends on the desired balance between sharpness and smoothness in the topology. For designs requiring well-defined features, the sensitivity filter might be preferred. For smoother distributions, the density filter is more suitable.
