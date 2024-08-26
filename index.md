@@ -1,6 +1,12 @@
 # Course Exercises
 
-Welcome to my course exercises. Below you will find links to each of the exercises:
+## Download the Assignment
+
+[Download the assignment PDF](stage1/Exercises with An 88(99) line topology optimization code written in Matlab.pdf)
+
+## Completed Exercises
+
+Below you will find links to each of the completed exercises:
 
 1. [Problem 1](stage1/problem1/index.md)
 2. [Problem 2](stage1/problem2/index.md)
