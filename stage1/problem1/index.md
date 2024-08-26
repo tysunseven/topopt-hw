@@ -5,10 +5,8 @@ This is the report for Problem 1 of Stage 1. In this report, I will analyze the 
 Filter type (ft) can significantly impact the resulting topology. In this study, we have two types of filters: sensitivity filter (ft = 1) and density filter (ft = 2).
 
 
-<p align="center">
+
     ![Alt text for the first image](../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft1_loop57.png)
-    <br>nelx=60, nely=20, rmin=1.5, penal=3.0, ft=1, loop=57
-</p>
 
 <p align="center">
     ![Alt text for the second image](../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft2_loop90.png)
