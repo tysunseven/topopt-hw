@@ -1,6 +1,7 @@
 # Course Exercises
 
 [Download the assignment PDF](stage1/Exercises with An 88(99) line topology optimization code written in Matlab.pdf)
+
 [99 lines code study PDF](stage/99_lines_code_study.md)
 ## Completed Exercises
 
