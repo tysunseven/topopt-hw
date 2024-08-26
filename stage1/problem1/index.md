@@ -5,16 +5,15 @@ This is the report for Problem 1 of Stage 1. In this report, I will analyze the 
 Filter type (ft) can significantly impact the resulting topology. In this study, we have two types of filters: sensitivity filter (ft = 1) and density filter (ft = 2).
 
 
-<div style="display: flex; justify-content: center;">
-    <figure style="margin: 10px; text-align: center;">
-        <img src="/image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft1_loop57.png" alt="Alt text for the first image">
-        <figcaption>nelx=60, nely=20, rmin=1.5, penal=3.0, ft=1, loop=57</figcaption>
-    </figure>
-    <figure style="margin: 10px; text-align: center;">
-        <img src="/image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft2_loop90.png" alt="Alt text for the second image">
-        <figcaption>nelx=60, nely=20, rmin=1.5, penal=3.0, ft=2, loop=90</figcaption>
-    </figure>
-</div>
+<p align="center">
+    ![Alt text for the first image](../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft1_loop57.png)
+    <br>nelx=60, nely=20, rmin=1.5, penal=3.0, ft=1, loop=57
+</p>
+
+<p align="center">
+    ![Alt text for the second image](../../image/stage1/problem1/MBB_top_nelx60_nely20_rmin1.5_penal3.0_ft2_loop90.png)
+    <br>nelx=60, nely=20, rmin=1.5, penal=3.0, ft=2, loop=90
+</p>
 In comparing these images, we can observe that the sensitivity filter tends to produce more distinct structural features, whereas the density filter often results in smoother transitions between solid and void regions. This difference occurs because the sensitivity filter directly influences the gradient calculation, leading to sharper boundaries, while the density filter averages densities, resulting in more gradual changes.
 
 Analysis: The choice between sensitivity and density filters depends on the desired balance between sharpness and smoothness in the topology. For designs requiring well-defined features, the sensitivity filter might be preferred. For smoother distributions, the density filter is more suitable.
