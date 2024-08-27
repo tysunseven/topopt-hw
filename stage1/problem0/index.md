@@ -1,16 +1,4 @@
-{% include mermaid.html %}
 # 学习 99 行拓扑优化代码
-```mermaid
-graph TD;
-    A[Start] --> B[Step 1];
-    B --> C{Decision};
-    C -->|Yes| D[Step 2];
-    C -->|No| E[End];
-    D --> F[Step 3];
-    F --> E[End];
-```
-
-
 ```matlab
 x(1:nely,1:nelx) = volfrac;
 ```
