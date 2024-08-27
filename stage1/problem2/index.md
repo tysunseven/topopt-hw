@@ -1,3 +1,6 @@
+<script type="text/javascript" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 # Problem 2: Implement other boundary conditions
 - Design Domain: A 2D rectangular plane, discretized into a grid of nelx=120 by nely=20 elements.
 - Design Variables: The design variables are the density values of each element, ranging from 0 to 1, representing whether the element has material (0 means no material, and 1 means material is present). The initial design variables are uniformly distributed, with all elements having a density equal to the given volume fraction (volfrac=0.4).
