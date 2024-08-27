@@ -2,7 +2,7 @@
 - Design Domain: A 2D rectangular plane, discretized into a grid of nelx=120 by nely=20 elements.
 - Design Variables: The design variables are the density values of each element, ranging from 0 to 1, representing whether the element has material (0 means no material, and 1 means material is present). The initial design variables are uniformly distributed, with all elements having a density equal to the given volume fraction (volfrac=0.4).
 - Objective Function: The objective function is the compliance of the structure, which corresponds to the deformation energy under the given load conditions. The goal of the optimization is to minimize the structure's compliance, making it as stiff as possible under the applied forces. Mathematically, it is expressed as:
-\[c=\sum_{i=1}^{\rm nely}\sum_{j=1}^{\rm nelx}x(i,j)^{\rm penal}U_e(i,j)^TK_eU_e(i,j).\]
+$$c=\sum_{i=1}^{\rm nely}\sum_{j=1}^{\rm nelx}x(i,j)^{\rm penal}U_e(i,j)^TK_eU_e(i,j).$$
 - Constraint: The problem imposes a volume constraint, ensuring that the material used in the optimized structure does not exceed the initially specified volume fraction. This constraint is expressed as:
 \[\sum_{i=1}^{\rm nely}\sum_{j=1}^{\rm nelx}x(i,j)<{\rm volfrac}\times {\rm nelx}\times {\rm nely}.\]
 - Optimization parameters: The value of the filter radius rmin is 1.5, and the value of the projection parameter ft is 1.
