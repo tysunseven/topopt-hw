@@ -2,7 +2,7 @@
 
 [Download the assignment PDF](stage1/Exercises with An 88(99) line topology optimization code written in Matlab.pdf)
 
-[99 lines code study](stage1/problem0/index.md)
+[Study Notes on Sigmund's Example Codes](stage1/problem0/index.md)
 ## Completed Exercises
 
 Below you will find links to each of the completed exercises:
