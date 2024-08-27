@@ -124,16 +124,13 @@ freedofs    = setdiff(alldofs,fixeddofs);
 ```
 freedofs 是所有未被固定的自由度的集合。
 使用 setdiff 函数计算所有自由度 alldofs 与固定自由度 fixeddofs 的差集，得到的结果就是自由度 freedofs。这些自由度对应于结构中可以自由变形的节点。
-```
-% SOLVING
+
+```matlab
 U(freedofs,:) = K(freedofs,freedofs) \ F(freedofs,:);      
 U(fixeddofs,:)= 0;
 ```
-- U(freedofs,:) = K(freedofs,freedofs) \ F(freedofs,:);: 这一步使用 MATLAB 的线性求解器 \，求解自由度 freedofs 对应的位移向量 U。
-- K(freedofs,freedofs) 是全局刚度矩阵 K 的子矩阵，只包含与自由度 freedofs 相关的部分。
-- F(freedofs,:) 是载荷向量 F 的子向量，包含与自由度 freedofs 相关的部分。
-- 求解的结果是自由度 freedofs 对应的位移 U。
-- U(fixeddofs,:) = 0;: 将固定自由度的位移 U(fixeddofs,:) 设为零，以满足边界条件。因为这些自由度是固定的，所以它们的位移被强制为零。
+- 这一步使用 MATLAB 的线性求解器 \ 求解线性方程组 K * U = F，求解的结果是自由度 freedofs 对应的位移 U。
+- 将固定自由度的位移 U(fixeddofs,:) 设为零，以满足边界条件。因为这些自由度是固定的，所以它们的位移被强制为零。
 
 ```matlab
   [U]=FE(nelx,nely,x,penal);
