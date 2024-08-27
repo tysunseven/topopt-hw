@@ -1,4 +1,4 @@
-{% include_relative assets/mermaid.html %}
+{% include_relative ../../assets/mermaid.html %}
 # 学习 99 行拓扑优化代码
 ```mermaid
 graph TD;
