@@ -1,4 +1,4 @@
-# 学习 99 行拓扑优化代码
+# Simple 99-line Matlab code
 ```matlab
 x(1:nely,1:nelx) = volfrac;
 ```
@@ -246,3 +246,4 @@ end
 - axis off;: 隐藏坐标轴。
 - pause(1e-6);: 暂停一小段时间（非常短暂），以确保图像有足够时间更新。这在动画效果中尤其重要。
 
+# Optimized 88-line Matlab code
