@@ -16,7 +16,15 @@ The SIMP (Solid Isotropic Material with Penalization) method is a widely used ap
 - **Design Variable**: Material density `x`, where `x` ranges from 0 to 1, with 0 indicating void and 1 indicating solid material. In the code, `x` is implemented as an `nely` by `nelx` matrix, where each element represents the density of a specific element in the design domain. The values of this matrix are initially set to `volfrac`, the prescribed volume fraction, to ensure a uniform distribution of material density at the start of the optimization process.
 - **Objective Function**: Minimize compliance (maximize stiffness) of the structure, represented as
 
-$$c=\sum_{i=1}^{\rm nely}\sum_{j=1}^{\rm nelx}x(i,j)^{\rm penal}U_e(i,j)^TK_eU_e(i,j).$$
+$$c(x)=U^TKU=\sum_{e=1}^{\rm nelx\times nely}E_e(x_e)U_e^TK_0U_e.$$
+
+In the 99-line code
+
+$$E_e(x_e)=x_e^p$$
+
+and in the 88-line code
+
+$$ E_e(x_e)=E_{\rm min}+x_e^p(E_0-E_{\rm min}) $$
 
 - **Constraint**: The problem imposes a volume constraint, ensuring that the material used in the optimized structure does not exceed the initially specified volume fraction. This constraint is expressed as:
 
