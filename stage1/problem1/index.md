@@ -1,4 +1,26 @@
-# Problem 1: Topology Optimization
+# Problem 1: Test influence of discretization, filter type, filter size and penalization power
+- **Design domain**: A rectangle with an aspect ratio of 3:1, representing half of an MBB beam.
+- **Boundary conditions**: The x-component on the left edge is fixed, and the y-component at the bottom right corner is fixed.
+```matlab
+fixeddofs = union([1:2:2*(nely+1)],[2*(nelx+1)*(nely+1)]);
+```
+- **Loading conditions**: A vertical downward force is applied at the top-left corner.
+```matlab
+F = sparse(2,1,-1,2*(nely+1)*(nelx+1),1);
+```
+## Optimization Model: SIMP
+The SIMP (Solid Isotropic Material with Penalization) method is a widely used approach in topology optimization. It defines the material properties as a function of the design variables, typically representing material density. The method penalizes intermediate densities to push the design towards a clear distinction between solid and void regions, enabling efficient and manufacturable structures. The primary goal of SIMP is to optimize material distribution within a given design domain to achieve maximum stiffness under specified constraints.
+
+- **Design Variable**: Material density `x` (where `x` ranges from 0 to 1, with 0 indicating void and 1 indicating solid material)
+- **Objective Function**: Minimize compliance (maximize stiffness) of the structure, represented as \( c(x) = \mathbf{U}^T \mathbf{K}(x) \mathbf{U} \), where \( \mathbf{U} \) is the displacement vector, and \( \mathbf{K}(x) \) is the stiffness matrix.
+- **Constraint**: Volume fraction constraint, ensuring the total material used does not exceed a specified fraction `volfrac` of the design domain.
+
+
+
+
+
+ 
+- 
 This is the report for Problem 1 of Stage 1. In this report, I will analyze the influence of different parameters on the topology of the MBB-beam using the provided Matlab code. The parameters I will investigate include the filter type, filter size, penalization power, and discretization. The results are discussed in the following sections.
 
 ## Filter Type Influence
