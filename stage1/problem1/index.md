@@ -2,10 +2,10 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 # Problem 1: Test influence of discretization, filter type, filter size and penalization power
+
 <p align="center">
   <figure align="center">
     <img src="../../image/stage1/problem1/problem1.png" width="90%">
-    
   </figure>
 </p>
 
