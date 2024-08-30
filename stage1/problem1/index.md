@@ -110,7 +110,7 @@ Through these parameter combinations, we can examine the impact of different par
 It can be seen that compared to ft=0, which represents the case without filtering, both filtering types, ft=1 and ft=2, provide a significantly smoother effect. The angles of the slanted edges in ft=1 appear to be smaller, but from other perspectives, it is difficult to distinguish the differences between the two results with the naked eye.
 
 <div style="text-align: center;">
-    <table border="1" style="margin: auto；" width='60%'>
+    <table align="center">
         <tr>
             <th>c</th>
             <th>nelx=60</th>
