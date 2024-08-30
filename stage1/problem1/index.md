@@ -110,10 +110,38 @@ Through these parameter combinations, we can examine the impact of different par
 It can be seen that compared to ft=0, which represents the case without filtering, both filtering types, ft=1 and ft=2, provide a significantly smoother effect. The angles of the slanted edges in ft=1 appear to be smaller, but from other perspectives, it is difficult to distinguish the differences between the two results with the naked eye.
 
 <div style="text-align: center;">
-| c  | nelx=60  | nelx=120  | nelx=240  | loop  | nelx=60  | nelx=120  | nelx=240  |
-|---|---|---|---|---|---|---|---|
-|  **ft=1** |  216.8137 | 219.1707  |  221.4852 | **ft=1**  | 106  |  93 |  93 |
-| **ft=2**  |  233.7146 | 236.2088  | 237.4982  | **ft=2**  |  144 | 158  |  1020 |
+    <table>
+        <tr>
+            <th>c</th>
+            <th>nelx=60</th>
+            <th>nelx=120</th>
+            <th>nelx=240</th>
+            <th>loop</th>
+            <th>nelx=60</th>
+            <th>nelx=120</th>
+            <th>nelx=240</th>
+        </tr>
+        <tr>
+            <td><strong>ft=1</strong></td>
+            <td>216.8137</td>
+            <td>219.1707</td>
+            <td>221.4852</td>
+            <td><strong>ft=1</strong></td>
+            <td>106</td>
+            <td>93</td>
+            <td>93</td>
+        </tr>
+        <tr>
+            <td><strong>ft=2</strong></td>
+            <td>233.7146</td>
+            <td>236.2088</td>
+            <td>237.4982</td>
+            <td><strong>ft=2</strong></td>
+            <td>144</td>
+            <td>158</td>
+            <td>1020</td>
+        </tr>
+    </table>
 </div>
 
 It can be seen from the table that ft=1 consistently achieves lower objective function values compared to ft=2 across all grid resolutions. This suggests that ft=1 might be more effective in achieving a more optimal structural design, as lower objective function values typically indicate better performance. Besides, ft=1 converges much faster than ft=2, especially noticeable at the highest grid resolution (nelx=240), where ft=2 requires 1020 iterations compared to only 93 for ft=1. This indicates that ft=1 has a clear advantage in terms of convergence speed, leading to quicker optimization with fewer iterations, whereas ft=2 may result in substantially longer computation times, particularly at higher resolutions.
