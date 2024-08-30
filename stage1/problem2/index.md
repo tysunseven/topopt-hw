@@ -2,17 +2,17 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
 # Problem 2: Implement other boundary conditions
+
+<p align="center">
+  <figure align="center">
+    <img src="../../image/stage1/problem2/Problem2.png" width="90%">
+  </figure>
+</p>
+
 - Design Domain: A 2D rectangular plane, discretized into a grid of nelx=120 by nely=20 elements.
-- Design Variables: The design variables are the density values of each element, ranging from 0 to 1, representing whether the element has material (0 means no material, and 1 means material is present). The initial design variables are uniformly distributed, with all elements having a density equal to the given volume fraction (volfrac=0.4).
-- Objective Function: The objective function is the compliance of the structure, which corresponds to the deformation energy under the given load conditions. The goal of the optimization is to minimize the structure's compliance, making it as stiff as possible under the applied forces. Mathematically, it is expressed as:
+- Design Variables, objective function,  constraint are the same as Problem 1.
 
-$$c=\sum_{i=1}^{\rm nely}\sum_{j=1}^{\rm nelx}x(i,j)^{\rm penal}U_e(i,j)^TK_eU_e(i,j).$$
-
-- Constraint: The problem imposes a volume constraint, ensuring that the material used in the optimized structure does not exceed the initially specified volume fraction. This constraint is expressed as:
-
-$$\sum_{i=1}^{\rm nely}\sum_{j=1}^{\rm nelx}x(i,j)<{\rm volfrac}\times {\rm nelx}\times {\rm nely}.$$
-
-- Optimization parameters: The value of the filter radius rmin is 1.5, and the value of the projection parameter ft is 1.
+- Optimization parameters: The volume fraction is set to 0.5, the penalization factor is set to 3, the filter radius is set to 4.8, and the filter type is set to sensitivity filter.
 ## Two simultaneous point loads
 - Loading Conditions: Two downward point loads are applied at the top edge of the design domain, specifically at the one-quarter and three-quarters positions. We compared the cases where the forces are applied upwards versus downwards.
 ```matlab
@@ -25,16 +25,11 @@ fixeddofs = [2*(nely+1)-1, 2*(nely+1), 2*(nelx+1)*(nely+1)-1, 2*(nelx+1)*(nely+1
 ```
 <p align="center">
   <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_1_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fdown.png" width="90%">
-    <figcaption>Figure 1: Downward force</figcaption>
+    <img src="../../image/stage1/problem2/result_two_point_loads_both_xy_iter8_obj82.6921.png" width="90%">
   </figure>
 </p>
-<p align="center">
-  <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_1_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fup.png" width="90%">
-    <figcaption>Figure 2: Upward force</figcaption>
-  </figure>
-</p>
+
+
 
 ### Case2
 - Boundary Conditions: The nodes at the bottom left and right corners of the design domain are partially fixed, meaning that only the y degrees of freedom at these nodes are constrained, while the x degrees of freedom remain free.
@@ -43,16 +38,11 @@ fixeddofs = [2*(nely+1), 2*(nelx+1)*(nely+1)];
 ```
 <p align="center">
   <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_1onlyy_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fdown.png" width="90%">
-    <figcaption>Figure 3: Downward force</figcaption>
+    <img src="../../image/stage1/problem2/result_two_point_loads_only_y_iter33_obj226.4264.png" width="90%">
   </figure>
 </p>
-<p align="center">
-  <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_1onlyy_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fup.png" width="90%">
-    <figcaption>Figure 4: Upward force</figcaption>
-  </figure>
-</p>
+
+
 
 ## Distributed load
 - Loading Conditions: A series of vertical forces are applied along the top edge of the design domain.
@@ -68,16 +58,10 @@ fixeddofs = [2*(nely+1)-1, 2*(nely+1), 2*(nelx+1)*(nely+1)-1, 2*(nelx+1)*(nely+1
 ```
 <p align="center">
   <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_2_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fdown.png" width="90%">
-    <figcaption>Figure 5: Downward force</figcaption>
+    <img src="../../image/stage1/problem2/result_distributed_load_both_xy_iter13_obj277578.1956.png" width="90%">
   </figure>
 </p>
-<p align="center">
-  <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_2_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fup.png" width="90%">
-    <figcaption>Figure 6: Upward force</figcaption>
-  </figure>
-</p>
+
 
 ### Case2
 - Boundary Conditions: The nodes at the bottom left and right corners of the design domain are partially fixed, meaning that only the y degrees of freedom at these nodes are constrained, while the x degrees of freedom remain free.
@@ -86,22 +70,13 @@ fixeddofs = [2*(nely+1), 2*(nelx+1)*(nely+1)];
 ```
 <p align="center">
   <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_2onlyy_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fdown.png" width="90%">
-    <figcaption>Figure 7: Downward force</figcaption>
+    <img src="../../image/stage1/problem2/result_distributed_load_only_y_iter18_obj867218.2148.png" width="90%">
   </figure>
 </p>
-<p align="center">
-  <figure align="center">
-    <img src="../../image/stage1/problem2/problem2_2onlyy_stitch_nelx120_nely20_volfrac0.40_penal3.0_rmin1.5_ft1_Fup.png" width="90%">
-    <figcaption>Figure 8: Upward force</figcaption>
-  </figure>
-</p>
-
-
-
 
 
 ## Analysis and Conclusion
-- Based on the comparison of the four cases above, it is evident that the direction of the force does not affect the final optimization result. In fact, from the perspective of theoretical derivation, \\(KU = F\\) is a linear equation. When \\(F\\) changes to \\(-F\\), \\(U\\) changes to \\(-U\\). However, the objective function \\(c\\) is a quadratic function of \\(U\\), so changing \\(U\\) to \\(-U\\) does not affect the value of \\(c\\), and thus does not influence the update process of \\(x\\) at each step.
-- The two simultaneous point loads tend to generate an arch bridge, while the distributed load tends to produce a bridge with a level deck, although the structure of the latter is somewhat indistinct. **My main question is whether we should expect material to be present at the points where the loads are applied**.
-- The case where only the y degrees of freedom are fixed tends to produce a topology with higher genus compared to the case where both the x and y degrees of freedom are fixed. I'm not sure if these two scenarios represent different physical situations, **nor do I know which one is closer to our real world**.
+- Experiments show that the direction of the force does not change the optimization results (identical result images are not displayed in the report to save space). In fact, from the perspective of theoretical derivation, \\(KU = F\\) is a linear equation. When \\(F\\) changes to \\(-F\\), \\(U\\) changes to \\(-U\\). However, the objective function \\(c\\) is a quadratic function of \\(U\\), so changing \\(U\\) to \\(-U\\) does not affect the value of \\(c\\), and thus does not influence the update process of \\(x\\) at each step.
+- We applied a downward force component to each node in the first row under the distributed load condition. **Should we expect the material density at the points where the force is applied to be 1 in the optimization results?**
+- In this problem, I chose the filter radius as rmin = nelx * 0.04 = 120 * 0.04 = 4.8 based on the experience from Assignment 1. However, I overlooked the fact that in this problem, I did not reduce the problem to half of the material based on symmetry, so the ratio of nelx to nely is 6, not 3. As a result, the filter radius rmin = 4.8 might be too large for nely, which could have led to large gray areas in the optimization results.
+- In this problem, I discussed two boundary conditions: one where only the y components at the bottom-left and bottom-right corners are fixed, and another where both the x and y components are fixed. I'm not sure which boundary condition better reflects the actual physics. **How should we determine the boundary conditions in real-world problems?**
