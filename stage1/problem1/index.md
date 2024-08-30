@@ -5,7 +5,7 @@
 
 <p align="center">
   <figure align="center">
-    <img src="../../image/stage1/problem1/problem1.png" width="90%">
+    <img src="../../image/stage1/problem1/Problem1.png" width="90%">
   </figure>
 </p>
 
