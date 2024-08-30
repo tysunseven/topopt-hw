@@ -108,9 +108,9 @@ Through these parameter combinations, we can examine the impact of different par
 </p>
 
 It can be seen that compared to ft=0, which represents the case without filtering, both filtering types, ft=1 and ft=2, provide a significantly smoother effect. The angles of the slanted edges in ft=1 appear to be smaller, but from other perspectives, it is difficult to distinguish the differences between the two results with the naked eye.
-
-<div style="text-align: center;"  align="center">
-    <table>
+<p align="center">
+<div style="text-align: center;" align="center">
+    <table align="center">
         <tr>
             <th>c</th>
             <th>nelx=60</th>
@@ -143,7 +143,7 @@ It can be seen that compared to ft=0, which represents the case without filterin
         </tr>
     </table>
 </div>
-
+</p>
 It can be seen from the table that ft=1 consistently achieves lower objective function values compared to ft=2 across all grid resolutions. This suggests that ft=1 might be more effective in achieving a more optimal structural design, as lower objective function values typically indicate better performance. Besides, ft=1 converges much faster than ft=2, especially noticeable at the highest grid resolution (nelx=240), where ft=2 requires 1020 iterations compared to only 93 for ft=1. This indicates that ft=1 has a clear advantage in terms of convergence speed, leading to quicker optimization with fewer iterations, whereas ft=2 may result in substantially longer computation times, particularly at higher resolutions.
 
 
