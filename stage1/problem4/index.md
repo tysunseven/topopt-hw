@@ -19,18 +19,18 @@
 ## MMA
 The MMA considers the following optimization problem:
 
-\[
+$$
 \text{Minimize } \quad f_0(x) + a_0 \cdot z + \sum_{i=1}^{m} \left( c_i \cdot y_i + \frac{d_i}{2} \cdot y_i^2 \right)
-\]
+$$
 
-\[
+$$
 \begin{aligned}
 \text{Subject to} \quad & f_i(x) - a_i \cdot z - y_i \leq 0,            & i = 1, 2, \ldots, m \\
                         & x_j^{\text{min}} \leq x_j \leq x_j^{\text{max}}, & j = 1, 2, \ldots, n \\
                         & z \geq 0,                                        &  \\
                         & y_i \geq 0,                                       & i = 1, 2, \ldots, m
 \end{aligned}
-\]
+$$
 
 With appropriate choices of the coefficients \( a_i \), \( c_i \), and \( d_i \), it can be shown that this formulation is equivalent to other common forms of optimization problems. The details of this equivalence will be presented in subsequent sections. The overall framework of MMA is similar to the OC method, where an initial guess is made, and based on this guess, an approximate optimization problem is formulated. This approximate problem is then solved, and the solution is fed back into the main program. If the obtained solution satisfies the convergence criteria or meets the predefined requirements, the optimization loop is terminated. However, if the solution does not satisfy these conditions, it is used as the new starting point for the next iteration of the MMA process, which continues until a satisfactory solution is found or the maximum number of iterations is reached. Next, we will first describe what the approximated optimization problem looks like for a given guess, and then we will demonstrate how to solve the approximated problem using a primal-dual Newton method.
 ```matlab
@@ -107,13 +107,13 @@ p_{ij}^{(k)} = \left(u_j^{(k)} - x_j^{(k)}\right)^2  \frac{\partial f_i}{\partia
 $$
 
 Earlier, we discussed how the objective function is approximated. Now, we will discuss how the range of the decision variable \(x\) is determined in the approximated optimization problem. It is clear that we need to satisfy $$ l_j^{(k)} < \alpha_j^{(k)} < x_j^{(k)} < \beta_j^{(k)} < u_j^{(k)} $$In practice, we choose
-\[
+$$
 \alpha_j^{(k)} = \max\left\{x_j^{\text{min}}, (1-\text{albefa})\times l_j^{(k)} + \text{albefa}\times x_j^{(k)},x_j^{(k)}-\text{move}\times(x^{\text{max}}_j-x^{\text{min}}_j)\right\}
-\]
+$$
 
-\[
+$$
 \beta_j^{(k)} = \min\left\{x_j^{\text{max}}, (1-\text{albefa})\times u_j^{(k)} + \text{albefa}\times x_j^{(k)},x_j^{(k)}+\text{move}\times(x^{\text{max}}_j-x^{\text{min}}_j)\right\}
-\]Where in mmasub.m,
+$$Where in mmasub.m,
 ```matlab
 move = 1.0;  albefa = 0.1;
 ```
@@ -125,21 +125,21 @@ In optimization algorithms, the magnitude of the second derivatives typically re
 
 For any point \( x \) such that \( l_j^{(k)} < x_j < u_j^{(k)} \), the second derivative of the approximated function \( f_i^{(k)} \) is given by:
 
-\[
+$$
 \frac{\partial^2 f_i^{(k)}}{\partial x_j^2} = \frac{2p_{ij}^{(k)}}{(u_j^{(k)} - x_j)^3} + \frac{2q_{ij}^{(k)}}{(x_j - l_j^{(k)})^3},\quad \frac{\partial^2 f_i^{(k)}}{\partial x_j \partial x_l} = 0,\quad j\neq l
-\]
+$$
 
 Since \( p_{ij}^{(k)} \geq 0 \) and \( q_{ij}^{(k)} \geq 0 \), \( f_i^{(k)} \) is a convex function. Specifically, at \( x = x^{(k)} \), the second derivative simplifies to:
 
-\[
+$$
 \frac{\partial^2 f_i^{(k)}}{\partial x_j^2} = 2\frac{\partial f_i}{\partial x_j}\frac{1}{u_j^{(k)} - x_j^{(k)}},\quad  \text{if } \frac{\partial f_i}{\partial x_j} > 0, \quad \frac{\partial^2 f_i^{(k)}}{\partial x_j^2}=-2\frac{\partial f_i}{\partial x_j}\frac{1}{x_j^{(k)} - l_j^{(k)}},  \quad \text{if } \frac{\partial f_i}{\partial x_j} < 0
-\]Next, we will test a simple univariate function \( f(x) \) and \( x_0 \) to observe the effects of \( u \) and \( l \). It should first be noted that at most one of \( p_{ij}^{(k)} \) and \( q_{ij}^{(k)} \) can be non-zero at the same time. When the derivative of \( f \) at \( x_0 \) is greater than zero, we observe the term involving \( u \), and when the derivative of \( f \) at \( x_0 \) is less than zero, we observe the term involving \( l \). 
+$$Next, we will test a simple univariate function \( f(x) \) and \( x_0 \) to observe the effects of \( u \) and \( l \). It should first be noted that at most one of \( p_{ij}^{(k)} \) and \( q_{ij}^{(k)} \) can be non-zero at the same time. When the derivative of \( f \) at \( x_0 \) is greater than zero, we observe the term involving \( u \), and when the derivative of \( f \) at \( x_0 \) is less than zero, we observe the term involving \( l \). 
 $$f''(x_0) \Delta x = -f'(x_0).$$Since the approximation function shares the same value and first derivative as the original function, the Newton's method update formula above indicates that the closer the active term in \( u \) or \( l \) is to \( x \), the larger the value of \( f''(x_0) \) becomes. Consequently, the step size of the update becomes shorter, making our strategy more conservative. If the function behavior near \( x_0 \) is complex, an overly large step size might cause us to move directly from a monotonically decreasing interval to a monotonically increasing interval, potentially missing a local minimum point. In such cases, we should adjust our update strategy by reducing the step size, which corresponds to increasing the distance of \( u \) and \( l \) relative to \( x_0 \). In the code, one way to identify a complex function behavior near \( x_0 \) is by comparing the trend of the estimated solution \( x \) across two consecutive iterations. If the trend is reversed, it indicates that we have moved from an increasing/decreasing interval to a decreasing/increasing interval. Conversely, if the trend of the estimated solution \( x \) remains the same across consecutive iterations, it is reasonable to assume that we are in a relatively safe monotonic interval, allowing us to take a larger step size, which corresponds to decreasing the distance of \( u \) and \( l \) relative to \( x_0 \).
 
 With the above analysis, it becomes easy to understand the update rules for \( u \) and \( l \) in the code. For the initial iterations (e.g., \( k = 0 \) and \( k = 1 \)), a simple choice for the asymptotes is given by:
-\[
+$$
 l_j^{(k)} = x_j^{(k)} - \text{asyinit} \times (x_{\max, j} - x_{\min, j}) \quad \text{and} \quad u_j^{(k)} = x_j^{(k)} + \text{asyinit} \times (x_{\max, j} - x_{\min, j})
-\]where asyinit is a fixed real number such as 0.01.
+$$where asyinit is a fixed real number such as 0.01.
 1. **If the process tends to oscillate**: When the variable \( x_j \) shows signs of oscillation between iterations \( k-1 \) and \( k-2 \), the asymptotes need to be stabilized by moving the asymptotes closer to the current iteration point:
 $$ l_j^{(k)}=x_j^{(k)} - \text{asydecr} \times (x_j^{(k-1)} - l_j^{(k-1)}),\quad u_j^{(k)}=x_j^{(k)} + \text{asydecr} \times (x_j^{(k-1)} - u_j^{(k-1)}) $$where asydecr is a fixed real number such as 0.7. We also set upper and lower bounds for the changes in \( l \) and \( u \). This is clearly evident in the code and will not be elaborated further here.
 
@@ -172,90 +172,90 @@ $$
 $$Then we set \(x_1 = x_0 + \Delta x\) and proceed to the next iteration.
 #### Slack variables method for optimization problem with inequality constraints
 Consider an optimization problem with inequality constraints
-\[
+$$
 \begin{aligned}
 \text{Minimize } \quad & f(x) \\
 \text{Subject to} \quad & g_i(x) \leq 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-\]By introducing slack variables \( s \) as decision variables, where \( s_i \geq 0 \), the original optimization problem can be transformed into an equivalent optimization problem as follows
-\[
+$$By introducing slack variables \( s \) as decision variables, where \( s_i \geq 0 \), the original optimization problem can be transformed into an equivalent optimization problem as follows
+$$
 \begin{aligned}
 \text{Minimize } \quad & f(x) \\
 \text{Subject to} \quad & s_i \geq 0, & i = 1, \ldots, m \\
                         & g_i(x) + s_i = 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-\]It can be observed that an inequality has been transformed into an equality plus an inequality, but the new inequality is a direct constraint on the decision variable \( s \), which is somewhat different in role from the original inequality.
+$$It can be observed that an inequality has been transformed into an equality plus an inequality, but the new inequality is a direct constraint on the decision variable \( s \), which is somewhat different in role from the original inequality.
 
 #### KKT conditions for optimization problem with inequality constraints
 Consider an optimization problem with inequality constraints
-\[
+$$
 \begin{aligned}
 \text{Minimize } \quad & f(x) \\
 \text{Subject to} \quad & g_i(x) \leq 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-\]The corresponding Lagrangian function is
-\[
+$$The corresponding Lagrangian function is
+$$
 L(x, u, v) = f(x) + \sum_{i=1}^m u_i g_i(x) + \sum_{j=1}^p v_j h_j(x).
-\]
+$$
 
 The **Karush-Kuhn-Tucker conditions** or **KKT conditions** are:
 
 - **Stationarity**:
-  \[
+  $$
   \frac{\partial L}{\partial x}=\frac{\partial f}{\partial x}(x)+\sum_{i=1}^mu_i\frac{\partial g_i}{\partial x}(x)+\sum_{j=1}^pv_j\frac{\partial h_j}{\partial x}(x)=0.
-  \]
+  $$
 
 - **Complementary Slackness**:
-  \[
+  $$
   u_i \cdot g_i(x) = 0 \quad \text{for all } i
-  \]
+  $$
 
 - **Primal Feasibility**:
-  \[
+  $$
   g_i(x) \leq 0, \quad h_j(x) = 0 \quad \text{for all } i, j
-  \]
+  $$
 
 - **Dual Feasibility**:
-  \[
+  $$
   u_i \geq 0 \quad \text{for all } i
-  \]
+  $$
 
 #### KKT conditions for Slack variables method
 As an example, we calculate the KKT conditions for 
-\[
+$$
 \begin{aligned}
 \text{Minimize } \quad & f(x) \\
 \text{Subject to} \quad & s_i \geq 0, & i = 1, \ldots, m \\
                         & g_i(x) + s_i = 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-\]
+$$
 The corresponding Lagrangian function is
-\[
+$$
 L(x, s, u, v, \lambda) = f(x) + \sum_{i=1}^m u_i (g_i(x)+s_i) + \sum_{j=1}^p v_j h_j(x)-\sum_{i=1}^m\lambda_i s_i.
-\]
+$$
 - **Stationarity**:
-  \[
+  $$
   \frac{\partial L}{\partial x}=\frac{\partial f}{\partial x}(x)+\sum_{i=1}^mu_i\frac{\partial g_i}{\partial x}(x)+\sum_{j=1}^pv_j\frac{\partial h_j}{\partial x}(x)=0,\quad \frac{\partial L}{\partial s_i}=u_i-\lambda_i=0.
-  \]
+  $$
 
 - **Complementary Slackness**:
-  \[
+  $$
   \lambda_is_i = 0 \quad \text{for all } i
-  \]
+  $$
 
 - **Primal Feasibility**:
-  \[
+  $$
   -s_i \leq 0, \quad g_i(x)+s_i=0,\quad h_j(x) = 0 \quad \text{for all } i, j
-  \]
+  $$
 
 - **Dual Feasibility**:
-  \[
+  $$
   \lambda_i \geq 0 \quad \text{for all } i
-  \]
+  $$
 
 The most specific equation is \(\lambda_i = \mu_i\). Typically, in the KKT system of equations, we directly use this equation to reduce the number of variables.
 #### Perturbed KKT/Primal-dual interior-point method
@@ -264,7 +264,7 @@ The most specific equation is \(\lambda_i = \mu_i\). Typically, in the KKT syste
 - If you decide to introduce \(l\) slack variables, the number of decision variables becomes \(n+l\), with \(m\) inequality constraints and \(p+l\) equality constraints. The Lagrangian function should now have \(n+l+(m-l+l)+p+l\) variables: \(n\) for \(x\), \(l\) for \(s\), \(m-l+l\) for the Lagrange multipliers of the inequality constraints (\(m-l\) for those without slack variables and \(l\) for those with), \(p\) for the original equality constraints, and \(l\) for the equality constraints introduced by the slack variables. You will have \(n+l\) stationarity conditions, \(m-l+l\) complementary slackness conditions, and \(p+l\) equality constraints. By using \(l\) of the stationarity conditions, you equate the Lagrange multipliers of the inequality constraints with slack variables to those of the equality constraints introduced by the slack variables. In total, there are \(n+l+m+p\) variables and \(n+l+m+p\) equality constraints. Additionally, we still have \(m\) inequality constraints.
 
 - Let’s denote all decision variables as \(x\) and all constraints as a vector-valued function \(F\). We aim to solve \(F(x) = 0\). Here, following the spirit of the Newton method, we first find a starting point \(x_0\) that satisfies the inequality constraints:
-\[F(x_0 + \Delta x) = F(x_0) + \nabla F(x_0)\Delta x = 0\]This determines the update direction \(\Delta x\), after which an appropriate step length is taken to satisfy both the inequality constraints and ensure convergence.
+$$F(x_0 + \Delta x) = F(x_0) + \nabla F(x_0)\Delta x = 0$$This determines the update direction \(\Delta x\), after which an appropriate step length is taken to satisfy both the inequality constraints and ensure convergence.
 
 - Since the starting point \(x_0\) is within the feasible region, and the iterated values remain within the feasible region, this method falls under the category of interior-point methods. Since the decision variables of the primal problem and the dual variables (i.e., the Lagrange multipliers) are updated simultaneously, it is called a primal-dual method.
 
