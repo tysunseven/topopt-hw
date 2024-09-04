@@ -10,3 +10,5 @@ Below you will find links to each of the completed exercises:
 1. [Problem 1](stage1/problem1/index.md)
 2. [Problem 2](stage1/problem2/index.md)
 3. [Problem 3](stage1/problem3/index.md)
+4. [Problem 4](stage1/problem4/index.md)
+5. [Problem 12](stage1/problem12/index.md)
