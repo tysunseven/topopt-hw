@@ -3,6 +3,21 @@
 </script>
 # Problem 1: Test influence of discretization, filter type, filter size and penalization power
 
+
+- [Problem 1: Test influence of discretization, filter type, filter size and penalization power](#problem-1-test-influence-of-discretization-filter-type-filter-size-and-penalization-power)
+  - [Optimization Model: SIMP](#optimization-model-simp)
+  - [Sensitivity Analysis](#sensitivity-analysis)
+  - [Optimization Algorithm: Optimality Criteria (OC)](#optimization-algorithm-optimality-criteria-oc)
+  - [Filter type: Sensitivity Filtering](#filter-type-sensitivity-filtering)
+  - [Filter type: Density Filtering](#filter-type-density-filtering)
+  - [Design variables x and the Physical densities xPhys](#design-variables-x-and-the-physical-densities-xphys)
+  - [Results Comparison and Analysis](#results-comparison-and-analysis)
+    - [Influence of the filter type](#influence-of-the-filter-type)
+    - [Influence of the filter size and the discretization](#influence-of-the-filter-size-and-the-discretization)
+    - [Influence of the penalization power](#influence-of-the-penalization-power)
+  - [Comments and Conclusion](#comments-and-conclusion)
+  - [Source code](#source-code)
+
 <p align="center">
   <figure align="center">
     <img src="../../image/stage1/problem1/Problem1.png" width="90%">
@@ -88,6 +103,8 @@ end
 ## Filter type: Density Filtering
 Compared to Sensitivity Filtering, Density Filtering simplifies the processing of \\(dc\\) by removing one layer of weighting by \\(x\\), using only the matrix \\(H\\) to weight \\(dc\\). However, Density Filtering introduces an additional step: when using the bisection method to find the value of \\(\lambda\\), it compares the volume of \\(x_{\text{Phys}}\\) (the weighted result of \\(x_{\text{new}}\\) by \\(H\\)) with the volume constraint, rather than comparing the volume of \\(x_{\text{new}}\\) calculated using the previous \\(\lambda\\). Nonetheless, the value used to update \\(x\\) is still \\(x_{\text{new}}\\), not the weighted average \\(x_{\text{new}}\\). The purpose of this operation remains somewhat mysterious to me.
 
+## Design variables x and the Physical densities xPhys
+
 ## Results Comparison and Analysis
 To develop an intuitive understanding of topology optimization, we selected 162 parameter combinations for testing, aiming to cover a wide range of configurations as comprehensively as possible. Specifically, we chose the following parameter combinations:
 
@@ -144,7 +161,19 @@ It can be seen that compared to ft=0, which represents the case without filterin
     </table>
 </div>
 </p>
-It can be seen from the table that ft=1 consistently achieves lower objective function values compared to ft=2 across all grid resolutions. This suggests that ft=1 might be more effective in achieving a more optimal structural design, as lower objective function values typically indicate better performance. Besides, ft=1 converges much faster than ft=2, especially noticeable at the highest grid resolution (nelx=240), where ft=2 requires 1020 iterations compared to only 93 for ft=1. This indicates that ft=1 has a clear advantage in terms of convergence speed, leading to quicker optimization with fewer iterations, whereas ft=2 may result in substantially longer computation times, particularly at higher resolutions.
+It can be seen from the table that ft=1 consistently achieves lower objective function values compared to ft=2 across all grid resolutions. This suggests that ft=1 might be more effective in achieving a more optimal structural design, as lower objective function values typically indicate - [Problem 1: Test influence of discretization, filter type, filter size and penalization power](#problem-1-test-influence-of-discretization-filter-type-filter-size-and-penalization-power)
+  - [Optimization Model: SIMP](#optimization-model-simp)
+  - [Sensitivity Analysis](#sensitivity-analysis)
+  - [Optimization Algorithm: Optimality Criteria (OC)](#optimization-algorithm-optimality-criteria-oc)
+  - [Filter type: Sensitivity Filtering](#filter-type-sensitivity-filtering)
+  - [Filter type: Density Filtering](#filter-type-density-filtering)
+  - [Results Comparison and Analysis](#results-comparison-and-analysis)
+    - [Influence of the filter type](#influence-of-the-filter-type)
+    - [Influence of the filter size and the discretization](#influence-of-the-filter-size-and-the-discretization)
+    - [Influence of the penalization power](#influence-of-the-penalization-power)
+  - [Comments and Conclusion](#comments-and-conclusion)
+  - [Source code](#source-code)
+better performance. Besides, ft=1 converges much faster than ft=2, especially noticeable at the highest grid resolution (nelx=240), where ft=2 requires 1020 iterations compared to only 93 for ft=1. This indicates that ft=1 has a clear advantage in terms of convergence speed, leading to quicker optimization with fewer iterations, whereas ft=2 may result in substantially longer computation times, particularly at higher resolutions.
 
 
 <p align="center">
