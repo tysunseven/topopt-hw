@@ -52,10 +52,14 @@ Assuming that the guess at the \\(k\\)th iteration is \\(x^{(k)}\\) (with the in
 
 $$
 f_i^{(k)}(x) = \sum_{j=1}^{n} \left( \frac{p_{ij}^{(k)}}{u_j^{(k)} - x_j} + \frac{q_{ij}^{(k)}}{x_j - l_j^{(k)}} \right)+r_i^{(k)},\quad 0\leqslant i\leqslant m
-$$The coefficients \\( u_j^{(k)} \\) and \\( l_j^{(k)} \\), referred to as asymptotes (which is where the name "Method of Moving Asymptotes" originates, as these values are adjusted in each iteration), are determined in a somewhat ad hoc manner. The specific method for selecting these asymptotes will be discussed in detail later. After \\( u_j^{(k)} \\) and \\( l_j^{(k)} \\) are selected, the values of \\( p_{ij}^{(k)} \\), \\( q_{ij}^{(k)} \\), and \\( r_i^{(k)} \\) are determined such that \\( f_i^{(k)}(x) \\) and \\( f_i(x) \\) have the same value and first derivative at \\( x^{(k)} \\).
+$$
+
+The coefficients \\( u_j^{(k)} \\) and \\( l_j^{(k)} \\), referred to as asymptotes (which is where the name "Method of Moving Asymptotes" originates, as these values are adjusted in each iteration), are determined in a somewhat ad hoc manner. The specific method for selecting these asymptotes will be discussed in detail later. After \\( u_j^{(k)} \\) and \\( l_j^{(k)} \\) are selected, the values of \\( p_{ij}^{(k)} \\), \\( q_{ij}^{(k)} \\), and \\( r_i^{(k)} \\) are determined such that \\( f_i^{(k)}(x) \\) and \\( f_i(x) \\) have the same value and first derivative at \\( x^{(k)} \\).
 $$
 p_{ij}^{(k)} = \left(u_j^{(k)} - x_j^{(k)}\right)^2  \frac{\partial f_i}{\partial x_j}^+(x^{(k)}),\quad q_{ij}^{(k)} = \left(x_j^{(k)} - l_j^{(k)}\right)^2  \frac{\partial f_i}{\partial x_j}^-(x^{(k)}).
-$$It should be noted that at most one of \\( p_{ij}^{(k)} \\) and \\( q_{ij}^{(k)} \\) can be non-zero. To invoke MMA, we need to calculate the values of \\(\frac{\partial f_i}{\partial x_j}(x^{(k)})\\) in the main program and pass them as parameters. In addition, the current iteration number \\(k\\) and the current guess \\(x^{(k)}\\) also need to be passed as parameters.
+$$
+
+It should be noted that at most one of \\( p_{ij}^{(k)} \\) and \\( q_{ij}^{(k)} \\) can be non-zero. To invoke MMA, we need to calculate the values of \\(\frac{\partial f_i}{\partial x_j}(x^{(k)})\\) in the main program and pass them as parameters. In addition, the current iteration number \\(k\\) and the current guess \\(x^{(k)}\\) also need to be passed as parameters.
 ```matlab
 %  iter  = Current iteration number ( =1 the first time mmasub is called).
 %  xval  = Column vector with the current values of the variables x_j.
@@ -133,18 +137,28 @@ Since \\( p_{ij}^{(k)} \geq 0 \\) and \\( q_{ij}^{(k)} \geq 0 \\), \\( f_i^{(k)}
 
 $$
 \frac{\partial^2 f_i^{(k)}}{\partial x_j^2} = 2\frac{\partial f_i}{\partial x_j}\frac{1}{u_j^{(k)} - x_j^{(k)}},\quad  \text{if } \frac{\partial f_i}{\partial x_j} > 0, \quad \frac{\partial^2 f_i^{(k)}}{\partial x_j^2}=-2\frac{\partial f_i}{\partial x_j}\frac{1}{x_j^{(k)} - l_j^{(k)}},  \quad \text{if } \frac{\partial f_i}{\partial x_j} < 0
-$$Next, we will test a simple univariate function \\( f(x) \\) and \\( x_0 \\) to observe the effects of \\( u \\) and \\( l \\). It should first be noted that at most one of \\( p_{ij}^{(k)} \\) and \\( q_{ij}^{(k)} \\) can be non-zero at the same time. When the derivative of \\( f \\) at \\( x_0 \\) is greater than zero, we observe the term involving \\( u \\), and when the derivative of \\( f \\) at \\( x_0 \\) is less than zero, we observe the term involving \\( l \\). 
-$$f''(x_0) \Delta x = -f'(x_0).$$Since the approximation function shares the same value and first derivative as the original function, the Newton's method update formula above indicates that the closer the active term in \\( u \\) or \\( l \\) is to \\( x \\), the larger the value of \\( f''(x_0) \\) becomes. Consequently, the step size of the update becomes shorter, making our strategy more conservative. If the function behavior near \\( x_0 \\) is complex, an overly large step size might cause us to move directly from a monotonically decreasing interval to a monotonically increasing interval, potentially missing a local minimum point. In such cases, we should adjust our update strategy by reducing the step size, which corresponds to increasing the distance of \\( u \\) and \\( l \\) relative to \\( x_0 \\). In the code, one way to identify a complex function behavior near \\( x_0 \\) is by comparing the trend of the estimated solution \\( x \\) across two consecutive iterations. If the trend is reversed, it indicates that we have moved from an increasing/decreasing interval to a decreasing/increasing interval. Conversely, if the trend of the estimated solution \\( x \\) remains the same across consecutive iterations, it is reasonable to assume that we are in a relatively safe monotonic interval, allowing us to take a larger step size, which corresponds to decreasing the distance of \\( u \\) and \\( l \\) relative to \\( x_0 \\).
+$$
+
+Next, we will test a simple univariate function \\( f(x) \\) and \\( x_0 \\) to observe the effects of \\( u \\) and \\( l \\). It should first be noted that at most one of \\( p_{ij}^{(k)} \\) and \\( q_{ij}^{(k)} \\) can be non-zero at the same time. When the derivative of \\( f \\) at \\( x_0 \\) is greater than zero, we observe the term involving \\( u \\), and when the derivative of \\( f \\) at \\( x_0 \\) is less than zero, we observe the term involving \\( l \\). 
+$$f''(x_0) \Delta x = -f'(x_0).$$
+
+Since the approximation function shares the same value and first derivative as the original function, the Newton's method update formula above indicates that the closer the active term in \\( u \\) or \\( l \\) is to \\( x \\), the larger the value of \\( f''(x_0) \\) becomes. Consequently, the step size of the update becomes shorter, making our strategy more conservative. If the function behavior near \\( x_0 \\) is complex, an overly large step size might cause us to move directly from a monotonically decreasing interval to a monotonically increasing interval, potentially missing a local minimum point. In such cases, we should adjust our update strategy by reducing the step size, which corresponds to increasing the distance of \\( u \\) and \\( l \\) relative to \\( x_0 \\). In the code, one way to identify a complex function behavior near \\( x_0 \\) is by comparing the trend of the estimated solution \\( x \\) across two consecutive iterations. If the trend is reversed, it indicates that we have moved from an increasing/decreasing interval to a decreasing/increasing interval. Conversely, if the trend of the estimated solution \\( x \\) remains the same across consecutive iterations, it is reasonable to assume that we are in a relatively safe monotonic interval, allowing us to take a larger step size, which corresponds to decreasing the distance of \\( u \\) and \\( l \\) relative to \\( x_0 \\).
 
 With the above analysis, it becomes easy to understand the update rules for \\( u \\) and \\( l \\) in the code. For the initial iterations (e.g., \\( k = 0 \\) and \\( k = 1 \\)), a simple choice for the asymptotes is given by:
 $$
 l_j^{(k)} = x_j^{(k)} - \text{asyinit} \times (x_{\max, j} - x_{\min, j}) \quad \text{and} \quad u_j^{(k)} = x_j^{(k)} + \text{asyinit} \times (x_{\max, j} - x_{\min, j})
-$$where asyinit is a fixed real number such as 0.01.
-1. **If the process tends to oscillate**: When the variable \\( x_j \\) shows signs of oscillation between iterations \\( k-1 \\) and \\( k-2 \\), the asymptotes need to be stabilized by moving the asymptotes closer to the current iteration point:
-$$ l_j^{(k)}=x_j^{(k)} - \text{asydecr} \times (x_j^{(k-1)} - l_j^{(k-1)}),\quad u_j^{(k)}=x_j^{(k)} + \text{asydecr} \times (x_j^{(k-1)} - u_j^{(k-1)}) $$where asydecr is a fixed real number such as 0.7. We also set upper and lower bounds for the changes in \\( l \\) and \\( u \\). This is clearly evident in the code and will not be elaborated further here.
+$$
 
-2. **If the process is monotone and slow**: In cases where the process is converging slowly and monotonically, the asymptotes should be relaxed by moving them away from the current iteration point:
-$$ l_j^{(k)}=x_j^{(k)} - \text{asyincr} \times (x_j^{(k-1)} - l_j^{(k-1)}),\quad u_j^{(k)}=x_j^{(k)} + \text{asyincr} \times (x_j^{(k-1)} - u_j^{(k-1)}) $$where asyincr is a fixed real number such as 1.2.
+where asyinit is a fixed real number such as 0.01.
+1. **If the process tends to oscillate**: When the variable \\( x_j \\) shows signs of oscillation between iterations \\( k-1 \\) and \\( k-2 \\), the asymptotes need to be stabilized by moving the asymptotes closer to the current iteration point:
+$$ l_j^{(k)}=x_j^{(k)} - \text{asydecr} \times (x_j^{(k-1)} - l_j^{(k-1)}),\quad u_j^{(k)}=x_j^{(k)} + \text{asydecr} \times (x_j^{(k-1)} - u_j^{(k-1)}) $$
+
+where asydecr is a fixed real number such as 0.7. We also set upper and lower bounds for the changes in \\( l \\) and \\( u \\). This is clearly evident in the code and will not be elaborated further here.
+
+3. **If the process is monotone and slow**: In cases where the process is converging slowly and monotonically, the asymptotes should be relaxed by moving them away from the current iteration point:
+$$ l_j^{(k)}=x_j^{(k)} - \text{asyincr} \times (x_j^{(k-1)} - l_j^{(k-1)}),\quad u_j^{(k)}=x_j^{(k)} + \text{asyincr} \times (x_j^{(k-1)} - u_j^{(k-1)}) $$
+
+where asyincr is a fixed real number such as 1.2.
 ### Relation to Common Forms of Optimization Problems
 To match an MMA problem to the standard NLP form, consider how the parameters \\( a_i \\), \\( c_i \\), and \\( d_i \\) are chosen:
 
@@ -166,10 +180,14 @@ The benefit of using fractional approximation is that it transforms the problem 
 Given an initial guess \\( x_0 \\), perform a second-order Taylor expansion of \\( f \\) at \\( x_0 \\) and ignore higher-order terms.
 $$
 f(x_0 + \Delta x) \approx f(x_0) + \nabla f(x_0)^T \Delta x + \frac{1}{2} \Delta x^T H(x_k) \Delta x.
-$$We want to find the value of \(\Delta x\) such that \(\nabla f(x + \Delta x)\) is zero. Therefore, we take the gradient of the above expression with respect to \(\Delta x\) and set the left-hand side to zero, resulting in
+$$
+
+We want to find the value of \(\Delta x\) such that \(\nabla f(x + \Delta x)\) is zero. Therefore, we take the gradient of the above expression with respect to \(\Delta x\) and set the left-hand side to zero, resulting in
 $$
 \nabla f(x_0) + H(x_0) \Delta x = 0\Longleftrightarrow H(x_0) \Delta x = -\nabla f(x_0).
-$$Then we set \\(x_1 = x_0 + \Delta x\\) and proceed to the next iteration.
+$$
+
+Then we set \\(x_1 = x_0 + \Delta x\\) and proceed to the next iteration.
 #### Slack variables method for optimization problem with inequality constraints
 Consider an optimization problem with inequality constraints
 $$
@@ -178,7 +196,9 @@ $$
 \text{Subject to} \quad & g_i(x) \leq 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-$$By introducing slack variables \\( s \\) as decision variables, where \\( s_i \geq 0 \\), the original optimization problem can be transformed into an equivalent optimization problem as follows
+$$
+
+By introducing slack variables \\( s \\) as decision variables, where \\( s_i \geq 0 \\), the original optimization problem can be transformed into an equivalent optimization problem as follows
 $$
 \begin{aligned}
 \text{Minimize } \quad & f(x) \\
@@ -186,7 +206,9 @@ $$
                         & g_i(x) + s_i = 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-$$It can be observed that an inequality has been transformed into an equality plus an inequality, but the new inequality is a direct constraint on the decision variable \\( s \\), which is somewhat different in role from the original inequality.
+$$
+
+It can be observed that an inequality has been transformed into an equality plus an inequality, but the new inequality is a direct constraint on the decision variable \\( s \\), which is somewhat different in role from the original inequality.
 
 #### KKT conditions for optimization problem with inequality constraints
 Consider an optimization problem with inequality constraints
@@ -196,7 +218,9 @@ $$
 \text{Subject to} \quad & g_i(x) \leq 0, & i = 1, \ldots, m \\
                         & h_j(x) = 0, & j = 1, \ldots, p
 \end{aligned}
-$$The corresponding Lagrangian function is
+$$
+
+The corresponding Lagrangian function is
 $$
 L(x, u, v) = f(x) + \sum_{i=1}^m u_i g_i(x) + \sum_{j=1}^p v_j h_j(x).
 $$
