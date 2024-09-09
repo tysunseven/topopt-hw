@@ -42,7 +42,3 @@ The second plot shows the computational **time** required by each method:
 - **Time**: IP is the most time-efficient method, showing almost no increase in computational time as problem size increases. OC performs moderately well, with a noticeable but manageable increase in time for larger problems. MMA, however, is the least time-efficient method, showing a significant increase in time as the number of elements increases.
 
 In conclusion, **IP** is the most computationally efficient method in terms of time, but its compliance performance degrades as problem size increases. **OC** provides a good balance between compliance and computational efficiency, making it a reliable choice for larger problems. **MMA** delivers good compliance but is significantly slower for larger problem sizes, making it less suitable for large-scale problems.
-## Source code
-```matlab
-
-```
