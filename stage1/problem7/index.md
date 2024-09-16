@@ -8,8 +8,7 @@
 This problem is relatively simple because we have already dealt with multi-load cases in Assignment 3, and we have extensively analyzed the MMA method in Assignment 4. Therefore, both the problem to be solved and the method to solve it are already very familiar to us.
 
 The purpose of this problem is to minimize the maximum compliance of the structure under different loads, that is, to find the optimal material distribution within a given volume constraint so that the structure deforms minimally under various force applications.
-
-- **Objective Function**：The constraint conditions h_i - z \leqslant 0 and -h_i - z \leqslant 0 actually imply that z \geqslant |h_i|. In this way
+- **Objective Function**：The constraint conditions h_i - z \leqslant 0 and -h_i - z \leqslant 0 actually imply that z \geqslant abs(h_i). In this way
 
 $$
 z=\max_{k=1,\cdots,p} \lbrace |h_k(x)| \rbrace
