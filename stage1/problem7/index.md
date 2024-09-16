@@ -9,7 +9,7 @@ This problem is relatively simple because we have already dealt with multi-load 
 
 The purpose of this problem is to minimize the maximum compliance of the structure under different loads, that is, to find the optimal material distribution within a given volume constraint so that the structure deforms minimally under various force applications.
 
-- **Objective Function**：The constraint conditions \\(h_i - z \leqslant 0\\) and \\(-h_i - z \leqslant 0\\) actually imply that \\(z \geqslant |h_i|\\). In this way
+- **Objective Function**：The constraint conditions h_i - z \leqslant 0 and -h_i - z \leqslant 0 actually imply that z \geqslant |h_i|. In this way
 
 $$
 z=\max_{k=1,\cdots,p} \lbrace |h_k(x)| \rbrace
