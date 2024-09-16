@@ -37,7 +37,7 @@ F(2*(nely+1)*(nelx/2) + 2, 3) = -1;
 
 ## Results and Analysis
  <figure align="center">
-    <img src="../../image/stage1/problem7/MinMax_iter731_obj14.4953.pngMechanism_iter1.449527e+01_obj14.4953.png" width="90%">
+    <img src="../../image/stage1/problem7/MinMax_iter731_obj14.4953.png" width="90%">
     <figcaption>Figure 1: Using MMA & Formulation in Assignment 7</figcaption>
 </figure>
 
