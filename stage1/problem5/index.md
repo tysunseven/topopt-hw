@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Problem 5:  Mechanism synthesis
+title: Problem 5  Mechanism synthesis
 ---
 <script type="text/javascript" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
