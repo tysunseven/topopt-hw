@@ -24,27 +24,27 @@ c = U(dout);
 ```
 - **Sensitivity Analysis**: In this assignment, we use the adjoint method to calculate sensitivity.
 
-\[
+$$
 \hat{\Phi} = \Phi + \lambda^T(KU - F)
-\]
+$$
 
-\\(\hat{\Phi}\\) and \\(\Phi\\) are numerically the same because \\(KU-F=0\\). Taking the derivative of \(\hat{\Phi}\) we get
+\\(\hat{\Phi}\\) and \\(\Phi\\) are numerically the same because \\(KU-F=0\\). Taking the derivative of \\(\hat{\Phi}\\) we get
 
-\[
+$$
 \hat{\Phi}' = \frac{\partial \Phi}{\partial U} U' + \lambda^T (K'U + K U')
-\]
+$$
 
 If we can take \\(\lambda\\) such that
 
-\[
+$$
 \lambda^T K + \frac{\partial \Phi}{\partial U} = 0\Longleftrightarrow K^T \lambda = - \left(\frac{\partial \Phi}{\partial U}\right)^T
-\]
+$$
 
 Then
 
-\[
+$$
 \Phi'=\hat{\Phi}' = \lambda^T K'U.
-\]
+$$
 
 The above process is reflected in the code as
 ```matlab
